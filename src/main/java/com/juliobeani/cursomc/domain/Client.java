@@ -38,6 +38,9 @@ public class Client implements Serializable{
 	// Set nao aceita repeticoes
 	private Set<String> phoneNumbers = new HashSet<>();
 	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
+	
 	public Client () {}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType clientType) {
@@ -94,6 +97,10 @@ public class Client implements Serializable{
 
 	public Set<String> getPhoneNumbers() {
 		return phoneNumbers;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
