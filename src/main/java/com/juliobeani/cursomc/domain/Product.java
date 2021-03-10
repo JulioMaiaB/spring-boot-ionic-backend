@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "tb_product")
@@ -27,6 +26,7 @@ public class Product implements Serializable{
 	private String name;
 	private Double price;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "TB_PRODUCT_CATEGORY", // Nome da tabela de associacao criada
 		joinColumns = @JoinColumn(name = "product_id"), // Declaracao da primeira chave estrangeira
@@ -79,7 +79,6 @@ public class Product implements Serializable{
 		this.price = price;
 	}
 	
-	@JsonBackReference
 	public List<Category> getCategories() {
 		return categories;
 	}
