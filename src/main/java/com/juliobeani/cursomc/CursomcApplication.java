@@ -13,6 +13,7 @@ import com.juliobeani.cursomc.domain.Category;
 import com.juliobeani.cursomc.domain.City;
 import com.juliobeani.cursomc.domain.Client;
 import com.juliobeani.cursomc.domain.Order;
+import com.juliobeani.cursomc.domain.OrderItem;
 import com.juliobeani.cursomc.domain.PagamentoComBoleto;
 import com.juliobeani.cursomc.domain.PagamentoComCartao;
 import com.juliobeani.cursomc.domain.Payment;
@@ -24,6 +25,7 @@ import com.juliobeani.cursomc.repositories.AddressRepository;
 import com.juliobeani.cursomc.repositories.CategoryRepository;
 import com.juliobeani.cursomc.repositories.CityRepository;
 import com.juliobeani.cursomc.repositories.ClientRepository;
+import com.juliobeani.cursomc.repositories.OrderItemRepository;
 import com.juliobeani.cursomc.repositories.OrderRepository;
 import com.juliobeani.cursomc.repositories.PaymentRepository;
 import com.juliobeani.cursomc.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -117,5 +121,17 @@ public class CursomcApplication implements CommandLineRunner {
 		orderRepository.saveAll(Arrays.asList(order1, order2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 		
+		OrderItem orderItem1 = new OrderItem(order1, p1, 0.00, 1, 2000.00);
+		OrderItem orderItem2 = new OrderItem(order1, p3, 0.00, 2, 80.00);
+		OrderItem orderItem3 = new OrderItem(order2, p2, 100.00, 1, 800.00);
+		
+		order1.getItens().addAll(Arrays.asList(orderItem1, orderItem2));
+		order2.getItens().addAll(Arrays.asList(orderItem3));
+		
+		p1.getItens().addAll(Arrays.asList(orderItem1));
+		p2.getItens().addAll(Arrays.asList(orderItem3));
+		p3.getItens().addAll(Arrays.asList(orderItem2));
+		
+		orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3));
 	}
 }
