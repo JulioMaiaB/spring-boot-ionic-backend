@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "tb_order")
 public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -24,10 +26,12 @@ public class Order implements Serializable{
 	private Date instant;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "order") // Necessario se nao da um erro de entidade transiente
+	@JsonManagedReference
 	private Payment payment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@JsonManagedReference
 	private Client client;
 	
 	@ManyToOne
