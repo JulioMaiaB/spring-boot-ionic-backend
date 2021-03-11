@@ -1,6 +1,8 @@
 package com.juliobeani.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.juliobeani.cursomc.domain.Category;
+import com.juliobeani.cursomc.domain.dto.CategoryDTO;
 import com.juliobeani.cursomc.services.CategoryService;
 
 @RestController
@@ -23,7 +26,13 @@ public class CategoryResource {
 
 	@Autowired
 	private CategoryService service;
-
+	
+	@GetMapping
+	public ResponseEntity<List<CategoryDTO>> findAll() {
+		List<Category> list = service.findAll();
+		return ResponseEntity.ok().body(list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList()));
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Integer id) {
 		Category obj = service.findById(id);
