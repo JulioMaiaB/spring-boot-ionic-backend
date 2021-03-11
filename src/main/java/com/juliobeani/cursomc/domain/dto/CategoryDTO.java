@@ -2,12 +2,18 @@ package com.juliobeani.cursomc.domain.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.juliobeani.cursomc.domain.Category;
 
 public class CategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	@NotEmpty(message = "Name is mandatory!")
+	@Length(min = 5, max = 80, message = "The field length must have between 5 and 80 characters.")
 	private String name;
 	
 	public CategoryDTO() {}
