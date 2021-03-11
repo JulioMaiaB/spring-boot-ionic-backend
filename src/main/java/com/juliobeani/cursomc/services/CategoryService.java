@@ -25,4 +25,9 @@ public class CategoryService {
 		obj.setId(null); // Garante que estou inserindo um objeto novo
 		return repository.save(obj);
 	}
+	
+	public Category update(Category obj, Integer id) {
+		findById(id);
+		return repository.save(obj);
+	}
 }
