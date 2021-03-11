@@ -3,10 +3,12 @@ package com.juliobeani.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.juliobeani.cursomc.domain.Category;
 import com.juliobeani.cursomc.repositories.CategoryRepository;
+import com.juliobeani.cursomc.services.exceptions.DataIntegrityException;
 import com.juliobeani.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -27,7 +29,17 @@ public class CategoryService {
 	}
 	
 	public Category update(Category obj, Integer id) {
+		findById(id); // Apenas para verificar se o id do objeto nao e nulo
+		return repository.save(obj); // Como o id nao e nulo, e feita uma atualizacao de forma automatica
+	}
+
+	public void delete(Integer id) {
 		findById(id);
-		return repository.save(obj);
+		try {
+			repository.deleteById(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("It is not possible to delete a category with products!");
+		}
 	}
 }
